@@ -22,6 +22,12 @@ const EmojiSticker = ({ imageSize, stickerSource }: Props) => {
             }
         })
 
+    const drag = Gesture.Pan()
+        .onChange(e => {
+            translateX.value += e.changeX;
+            translateY.value += e.changeY;
+        })
+
     const imageStyle = useAnimatedStyle(() => {
         return {
             width: withSpring(scaleImage.value),
@@ -29,12 +35,27 @@ const EmojiSticker = ({ imageSize, stickerSource }: Props) => {
         }
     })
 
+    const containerStyle = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { translateX: translateX.value },
+                { translateY: translateY.value },
+            ]
+        }
+    })
+
     return (
-        <Animated.View style={{ top: -350 }}>
-            <GestureDetector gesture={doubleTap}>
-                <Animated.Image source={stickerSource} style={[imageStyle, { width: imageSize, height: imageSize }]} resizeMode="contain" />
-            </GestureDetector>
-        </Animated.View>
+        <GestureDetector gesture={drag}>
+            <Animated.View style={[containerStyle, { top: -350 }]}>
+                <GestureDetector gesture={doubleTap}>
+                    <Animated.Image
+                        source={stickerSource}
+                        style={[imageStyle, { width: imageSize, height: imageSize }]}
+                        resizeMode="contain"
+                    />
+                </GestureDetector>
+            </Animated.View>
+        </GestureDetector>
     )
 }
 
