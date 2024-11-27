@@ -46,7 +46,7 @@ const EmojiSticker = ({ imageSize, stickerSource }: Props) => {
 
     return (
         <GestureDetector gesture={drag}>
-            <Animated.View style={[containerStyle, { top: -350 }]}>
+            <Animated.View style={[containerStyle,]}>
                 <GestureDetector gesture={doubleTap}>
                     <Animated.Image
                         source={stickerSource}
